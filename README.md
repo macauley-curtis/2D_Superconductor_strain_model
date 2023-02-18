@@ -20,7 +20,7 @@ This provides insight into the superconductting characteristics.
 
 And plot... plots depending on what you wish to plot.
 
-For each script, you can specify the paramaters conercned to the scripts as stated, however in each you can speificy the type of gap pairing (gap_pairing="") and the strain (strain="") which automatically pulls the correct previous data, and writes the correct output. It is all the same format so they all work together. 
+For each script, you can specify the paramaters conercned to the scripts as stated, however in each you can speificy the type of gap pairing (gap_pairing="") and the strain (strain="") which automatically pulls the correct previous data, and writes the correct output. It is all the same format so they all work together. The possible values are specified in the function "gap_symmetries" ane the strain is either: "uniaxial", "shear" or "c_axis".
 
 For further details on how to read the outputs in context, this paper authored by me and my supervisor outlines all details of the resulting plots and what they mean for the case study of Sr2RuO4 - https://arxiv.org/abs/2209.00300.
 
