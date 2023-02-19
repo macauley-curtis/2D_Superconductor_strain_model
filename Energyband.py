@@ -39,7 +39,7 @@ def e_k(strain, n_kx, n_ky, hopping_step, save):
 
     "calculate hopping changes based on type of strain"
     if strain == "c_axis":
-       t_x_array = np.linspace(1 * t_x, 1.14 * t_x, hopping_step)
+       t_x_array = np.linspace(1 * t_x, 1.43 * t_x, hopping_step)
     if strain == "uniaxial":
         t_x_array = np.linspace(1 * t_x, 1.14 * t_x, hopping_step)  # Hopping integral linear change array
         V_xy = -0.42  # Poisson ratio (approx for Sr2RuO4)
