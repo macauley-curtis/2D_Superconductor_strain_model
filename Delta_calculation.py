@@ -116,7 +116,7 @@ def one_comp(save, gap_pairing, gap_type, tc_plot, n_x, n_y, hopping_step, tempe
     " Set Physical Parameters"
     Interaction_Potential, pairing = gap_symmetry(gap_pairing, kx, ky)  #Import gap speicifc potential and symmetry
     Iteration_Constant = (-Interaction_Potential / (2 * k_space_n))  # Combined constant for the integral sum
-    boltzman_evt = (1.38 * 10 ** -23) * temperature / (1.6 * 10 ** -19)  # Convert into Boltzman eV units for ease
+    boltzman_evt = (1.38 * 10 ** -23) * temperature / (1.6 * 10 ** -19)  # Convert KbT into Boltzman eV units for ease
 
     "Run calculation"
     for hopping in range(hopping_step):
@@ -181,7 +181,7 @@ def two_comp(save, gap_pairing, gap_type, tc_plot, n_x, n_y, hopping_step,
 
     " Set Physical Parameters"
 
-    boltzman_evt = (1.38 * 10 ** -23) * temperature / (1.6 * 10 ** -19) # Convert into Boltzman eV units for ease
+    boltzman_evt = (1.38 * 10 ** -23) * temperature / (1.6 * 10 ** -19) # Convert KbT into Boltzman eV units for ease
     Interaction_Potential_1, Interaction_Potential_2, pairing_x, pairing_y,  = gap_symmetry(gap_pairing, kx, ky)
     Iteration_Constant_xsq_ysq = (-Interaction_Potential_1 / (2 * k_space_n))  # Combined constant for the integral sum
     Iteration_Constant_xy = (- Interaction_Potential_2 / (2 * k_space_n))  # Combined constant for the integral sum
