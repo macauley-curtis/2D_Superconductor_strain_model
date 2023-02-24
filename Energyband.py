@@ -43,14 +43,8 @@ def e_k(strain, n_kx, n_ky, hopping_step, save):
     if strain == "uniaxial":
         t_x_array = np.linspace(1 * t_x, 1.14 * t_x, hopping_step)  # Hopping integral linear change array
         V_xy = -0.42  # Poisson ratio (approx for Sr2RuO4)
-
-        "Calculate t_y_gamma based on t_x_gamma using t ~ 1/(d^7/2)"
-        x = 1 / (t_x_array ** (2 / 7))
-        delta_x = x[:] - x[0]
-        delta_y = V_xy * delta_x[:]
-        y = x[0] + delta_y
-        t_y_array = 1 / (y ** (7 / 2))
-
+        t_y_array = (V_xy * (t_x_array[:] - t_x)) + t_x
+        
     if strain == 'shear':
         t_xy_array = np.zeros((1, hopping_step))
         xy_0 = (interatomic_prefactor / t_prime) ** (2 / 7)
@@ -68,7 +62,12 @@ def e_k(strain, n_kx, n_ky, hopping_step, save):
     for i in range(n_kx):
         kx[i, :] = k_x[:]
         ky[:, i] = k_y[:]
-
+    
+    "calculate The number of electrons - Ne"
+    e_k_ne = epsilon_0[0, 0] - (2 * t_x * (np.cos(ky[:, :]) + np.cos(kx[:, :]))) - 4 * t_prime * (
+            np.cos(kx[:, :]) * np.cos(ky[:, :]))
+    Ne = 2 * np.sum(fermi_dirac_func(e_k_ne, KbT))
+    
     " Create an epsilon_k for every combination of (k_x,k_y) points at each strain "
     for h in range(hopping_step):
         if strain == "uniaxial":
@@ -90,12 +89,9 @@ def e_k(strain, n_kx, n_ky, hopping_step, save):
         "This keep the number of electrons constant by fixing Ne and readjusting the fermi-level inlcuded in epsilon_0"
         "This is an assumption that no longer holds if another band is used"
 
-        if h == 0:
-            epsilon_k[0, :, :] = epsilon_0[0, 0] + gamma_k[0, :, :]
-            Ne = 2 * np.sum(fermi_dirac_func(epsilon_k[0, :, :], KbT))
-        else:
-            epsilon_0[0, h] = fsolve(fermi_energy_solver, epsilon_0[0, h - 1])
-            epsilon_k[h, :, :] = epsilon_0[0, h] + gamma_k[h, :, :]
+        
+        epsilon_0[0, h] = fsolve(fermi_energy_solver, epsilon_0[0, h - 1])
+        epsilon_k[h, :, :] = epsilon_0[0, h] + gamma_k[h, :, :]
 
 
     print('code runtime = ', datetime.now() - startTime)
