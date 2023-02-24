@@ -90,8 +90,11 @@ def e_k(strain, n_kx, n_ky, hopping_step, save):
         "This is an assumption that no longer holds if another band is used"
 
         
-        epsilon_0[0, h] = fsolve(fermi_energy_solver, epsilon_0[0, h - 1])
-        epsilon_k[h, :, :] = epsilon_0[0, h] + gamma_k[h, :, :]
+        if h == 0:
+            epsilon_k[h, :, :] = epsilon_0[0, 0] + gamma_k[h, :, :]
+        else:
+            epsilon_0[0, h] = fsolve(fermi_energy_solver, epsilon_0[0, h - 1])
+            epsilon_k[h, :, :] = epsilon_0[0, h] + gamma_k[h, :, :]
 
 
     print('code runtime = ', datetime.now() - startTime)
