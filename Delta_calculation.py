@@ -116,7 +116,7 @@ def one_comp(save, gap_pairing, gap_type, tc_plot, n_x, n_y, hopping_step, tempe
     " Set Physical Parameters"
     Interaction_Potential, pairing = gap_symmetry(gap_pairing, kx, ky)  #Import gap speicifc potential and symmetry
     Iteration_Constant = (-Interaction_Potential / (2 * k_space_n))  # Combined constant for the integral sum
-    boltzman_evt = (1.38 * 10 ** -23) * temperature / (1.6 * 10 ** -19)  # Convert KbT into Boltzman eV units for ease
+    boltzman_evt = (1.38 * 10 ** -23) * temperature / (1.6 * 10 ** -19)  # Convert into Boltzman eV units for ease
 
     "Run calculation"
     for hopping in range(hopping_step):
@@ -181,7 +181,7 @@ def two_comp(save, gap_pairing, gap_type, tc_plot, n_x, n_y, hopping_step,
 
     " Set Physical Parameters"
 
-    boltzman_evt = (1.38 * 10 ** -23) * temperature / (1.6 * 10 ** -19) # Convert KbT into Boltzman eV units for ease
+    boltzman_evt = (1.38 * 10 ** -23) * temperature / (1.6 * 10 ** -19) # Convert into Boltzman eV units for ease
     Interaction_Potential_1, Interaction_Potential_2, pairing_x, pairing_y,  = gap_symmetry(gap_pairing, kx, ky)
     Iteration_Constant_xsq_ysq = (-Interaction_Potential_1 / (2 * k_space_n))  # Combined constant for the integral sum
     Iteration_Constant_xy = (- Interaction_Potential_2 / (2 * k_space_n))  # Combined constant for the integral sum
@@ -217,8 +217,8 @@ def two_comp(save, gap_pairing, gap_type, tc_plot, n_x, n_y, hopping_step,
                 Energy_k = np.sqrt(epsilon_k_squared[hopping, :, :] + np.abs(Delta_pairing) ** 2)
                 Fermi_dirac = 1 / (np.exp(Energy_k / boltzman_evt[temp]) + 1)
 
-                Delta_Sum_x = delta_sum(Iteration_Constant_xsq_ysq,np.real(Delta_pairing), Fermi_dirac, Energy_k, pairing_x)
-                Delta_Sum_y = delta_sum(Iteration_Constant_xy,np.imag(Delta_pairing), Fermi_dirac, Energy_k, pairing_y)
+                Delta_Sum_x = delta_sum(Iteration_Constant_xsq_ysq, np.real(Delta_pairing), Fermi_dirac, Energy_k, pairing_x)
+                Delta_Sum_y = delta_sum(Iteration_Constant_xy, np.imag(Delta_pairing), Fermi_dirac, Energy_k, pairing_y)
                 Delta_Iteration_x[n, 0] = (1 - mixing) * Delta_Iteration_x[n - 1, 0] + (mixing * Delta_Sum_x)
                 Delta_Iteration_y[n, 0] = (1 - mixing) * Delta_Iteration_y[n - 1, 0] + (mixing * Delta_Sum_y)
                 if (np.absolute(Delta_Iteration_x[n, 0] - Delta_Iteration_x[n - 1, 0]) + np.absolute(
