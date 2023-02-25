@@ -26,7 +26,9 @@ def gap_symmetry(gap_pairing, kx, ky):
 
 
 def dos(strain, gap_pairing, dos_step, normal_state, fermi_surface):
+
     StartTime = datetime.now()
+
     "Load e_k depending on strain type"
     epsilon_k = np.load("Energyband_{}.npy".format(strain))
     hopping_step, n_x, n_y = np.shape(epsilon_k) #Define shape of arrays to load into main calculation
