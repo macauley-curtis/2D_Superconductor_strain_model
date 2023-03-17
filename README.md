@@ -22,6 +22,10 @@ And plot... plots depending on what you wish to plot.
 
 For each script, you can specify the paramaters conercned to the scripts as stated, however in each you can speificy the type of gap pairing (gap_pairing="") and the strain (strain="") which automatically pulls the correct previous data, and writes the correct output. It is all the same format so they all work together. The possible values are specified in the function "gap_symmetries" ane the strain is either: "uniaxial", "shear" or "c_axis".
 
+
+The Delta script will throw up some runtime and exponential errors, this is due ot the handling of incriedbly small numbers in the femri-driac function, nummpy takes care of this by setting this to zero when needed and this is what it is warning you it is doing. It is a o k 
+
+
 For further details on how to read the outputs in context, this paper authored by me and my supervisor outlines all details of the resulting plots and what they mean for the case study of Sr2RuO4 - https://arxiv.org/abs/2209.00300.
 
 
