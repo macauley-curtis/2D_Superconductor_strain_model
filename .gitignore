@@ -1,0 +1,5 @@
+# Ignore untracked files
+*
+
+# But track these files
+!.gitignore
