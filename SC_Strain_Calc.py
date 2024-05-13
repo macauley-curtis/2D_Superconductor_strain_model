@@ -917,7 +917,7 @@ def main(
     t_x_end = round(hopping_array[-1] / t_unstrained, 2)
 
     if gap_type == "one component":
-        print("one comp init")
+        print("one component init")
 
         if calculate_dos:
             dos_start_time = datetime.now()
@@ -1005,6 +1005,13 @@ def main(
                 ax1.xaxis.set_tick_params(labelsize=28)
                 ax1.set_xlabel("$\\varepsilon$ ", fontsize=32)
                 ax1.set_ylabel("$\\rho(\\varepsilon)$", fontsize=36)
+                if strain == "shear":
+                    ax1.legend(loc='upper right', title='$\\frac{t_{xy^{(1)}}}{t^{\'}}$', prop={'size': 20},
+                               title_fontsize=28,
+                               markerscale=4)
+                else:
+                    ax1.legend(loc='upper right', title='$\\frac{t_x}{t_0}$', prop={'size': 20}, title_fontsize=28,
+                               markerscale=4)
 
                 ax2.contour(k_x, k_y, fermi_surface[1, :, :], colors="red")
                 ax2.xaxis.set_tick_params(
@@ -1031,6 +1038,7 @@ def main(
                 ax2.set_xlim(-1.2 * np.pi, 1.2 * np.pi)
                 ax2.set_ylim(-1.2 * np.pi, 1.2 * np.pi)
                 ax2.contour(k_x, k_y, fermi_surface[0, :, :], colors="blue")
+
                 ax1.set_title(f"{full_title}", fontsize=32)
                 plt.savefig(f"{strain}_dos_{gap_pairing}.jpg")
 
@@ -1083,7 +1091,7 @@ def main(
                 plt.savefig(f"{strain}_delta_{gap_pairing}.jpg")
 
     if gap_type == "two component":
-        print("two comp init")
+        print("two component init")
 
         if calculate_dos:
             dos_start_time = datetime.now()
@@ -1462,7 +1470,7 @@ def main(
 
 
 main(
-    strain="shear",
+    strain="uniaxial",
     gap_pairing="s_wave",
     t_1=1,
     t_2=1.14,
