@@ -6,15 +6,14 @@ The model supports several strain configurations and superconducting pairing sym
 
 Scientific Background
 Strain is modeled through changes in the electronic hopping integrals, which describe the transfer of electrons between lattice sites. For example, an increase in the nearest-neighbour hopping parameter $t_x$ corresponds to a decrease in the physical bond length along the
-x-direction, within the model's assumed relationship between hopping and lattice spacing.
+$x$-direction, within the model's assumed relationship between hopping and lattice spacing.
 
 The resulting changes in the electronic band structure affect the Fermi surface and density of states, which in turn influence the superconducting gap and critical temperature.
 
 The model consists of three main calculations:
 
-1.  ## Energy Band Structure
-    The energy-band calculation determines the electronic dispersion $\varepsilon_k$.
-    throughout the Brillouin zone for a range of strain-induced hopping parameters.
+## 1. Energy Band Structure
+The energy-band calculation determines the electronic dispersion $\varepsilon_k$ throughout the Brillouin zone for a range of strain-induced hopping parameters.
 
 The chemical potential is adjusted at each strain value to maintain a constant electron number. The resulting energy bands are saved and reused by subsequent calculations, avoiding unnecessary recomputation.
 
@@ -22,86 +21,63 @@ The hopping parameters are also saved separately, allowing calculated properties
 
 The energy reference is set by the chemical-potential convention used in the calculation. Where required, a relative chemical-potential shift can be obtained by subtracting its unstrained value:
 
-fermi_energy = epsilon_0[:] - epsilon_0[0]
-
-2.  ## Superconducting Gap and Critical Temperature
-    The superconducting gap calculation solves the self-consistent gap equation as a function of temperature and strain.
+`fermi_energy = epsilon_0[:] - epsilon_0[0]`
+## 2.  Superconducting Gap and Critical Temperature
+The superconducting gap calculation solves the self-consistent gap equation as a function of temperature and strain.
 
 For each hopping configuration, the calculation returns the temperature-dependent gap and an estimate of the superconducting critical temperature
-T$_c$.
+$T_c$.
 
 Both single-component and two-component order parameters are supported. The two-component models allow complex order parameters, enabling the investigation of pairing states such as chiral or mixed-symmetry superconducting phases.
 
 The resulting data can be used to investigate how strain affects the superconducting gap and critical temperature for different pairing symmetries.
 
 A general attratice interaction potential is assumed and calculatred by matching
-the unstrained Gap parameters to experimental values, tuning T$_c$.
+the unstrained Gap parameters to experimental values, tuning $T_c$.
 
-3.  ## Density of States (DOS)
-    The density-of-states calculation evaluates the normal-state DOS and the corresponding gap-symmetry-weighted DOS.
+## 3. Density of States (DOS)
+The density-of-states calculation evaluates the normal-state DOS and the corresponding gap-symmetry-weighted DOS.
 
 The normal-state DOS characterises the available electronic states as a function of energy. The weighted DOS incorporates the momentum dependence of the selected pairing symmetry,
-Γ(k) providing additional insight into how the electronic structure relates to the candidate superconducting order parameter.
+$\Gamma(k)$ providing additional insight into how the electronic structure relates to the candidate superconducting order parameter.
 
 These quantities can be used alongside the energy-band and gap calculations to investigate the relationship between strain, electronic structure, and superconducting properties.
 
-Supported Strain Configurations
+### Supported Strain Configurations
 The model supports three strain configurations:
 
-uniaxial — changes the nearest neighbour hopping parameters along the target axis.
-c_axis — changes the in-plane hopping parameters according to the model's
-c-axis strain.
-shear — primarily modifies the next-nearest neighbour hopping parameters and lattice geometry to represent shear strain.
+| Strain | Effective change |
+| -------| -----------------|
+|uniaxial | changes the nearest neighbour hopping parameters along the target axis|
+|c_axis  |changes the in-plane hopping parameters according to the model's c-axis strain|
+|shear | primarily modifies the next-nearest neighbour hopping parameters and lattice geometry to represent shear strain|
+
 Each configuration has its own hopping parameters and associated energy-band data.
 
-Supported Pairing Symmetries
+### Supported Pairing Symmetries
 The following pairing symmetries are available through the gap_pairing argument:
 
 Argument Pairing symmetry
-s_wave
-s
--wave
-ext_s_wave Extended
-s
--wave (
-s
-±
-)
-d_wave
-d
-x
-2
-−
-y
-2
--wave
-d_plus_id
-d
-
-- i
-  d
-  d_plus_ig
-  d
-- i
-  g
-  chiral_p Chiral
-  p
-  x
-- i
-  p
-  y
+|pairing name | pairing symbol |
+|------------ | -------------- |
+| `s_wave`    | $s-wave$ |
+| `ext_s_wave` | ($s^{\pm}$) |
+| `d_wave` | $d_{x^2−y^2}$ |
+| `d_plus_id` |$d_{x^2−y^2} + id_{xy}$ |
+| `d_plus_ig` | $d_{x^2−y^2} +ig$ |
+| `chiral_p` | $p_x + ip_y$ |
 
 ## Getting Started
 
-Requirements
+### Requirements
 The model uses Python and the following scientific libraries:
 
-NumPy
-Matplotlib
-SciPy
+`NumPy`
+`Matplotlib`
+`SciPy`
 Install the dependencies using the repository's requirements file, if available:
 
-python -m pip install -r requirements.txt
+`python -m pip install -r requirements.txt`
 
 # Setup file
 
@@ -111,7 +87,7 @@ Then deciding whether to calculate, load and save each segmant of the calculatio
 
 And finally the physical parameters. The file pushed to github contains roughly the correct
 parameters used during calculation, there has since been some changes to how the interation
-potential is treated so may need adjusting the unstrained version to get `T$_c$ = 0 for
+potential is treated so may need adjusting the unstrained version to get $T_c = 0$ for
 each pairing.
 
 ### Project Structure
@@ -129,12 +105,12 @@ When adapting the code to another material, ensure that the physical parameters 
 
 The model contains a fermi-sruface style screening only calculating energies within
 `cutoff_energy` of the femri surface, vastly reducing the k-space gird points needed to caluclate - however overdoing this also increases volatility in the self consistent calculation. So
-a compramise needs to be made between `nk` and `cutoff_energy`.
+a compromise needs to be made between `nk` and `cutoff_energy`.
 
 Actual runtimes will vary with the machine, calculation settings, and enabled outputs.
 
 An example run on a Macbook M4 pro for `stain = uniaxial` and
-`gap_pairing = "d-wave"` is as below:
+`gap_pairing = "d-wave"`  with `nk = 500`, `temperature_step = 300` and `hopping_step = 10` is as below:
 
 ```python
  ek_run_time: 0.11 seconds
@@ -150,13 +126,13 @@ You may then set the modes to `load` to pull these rather than recalculating.
 
 ## Research and Further Reading
 
-This code was developed for my PhD research into the effects of strain on superconductivity, with particular application to strontium ruthenate (Sr$_2$RuO$_4$).
+This code was developed for my PhD research into the effects of strain on superconductivity, with particular application to strontium ruthenate ($Sr_2RuO_4$).
 
 The following publications provide further context for the physical model, interpretation of the calculated quantities, and scientific motivation.
 
-Research paper: Strain effects in Sr₂RuO₄ — arXiv:2209.00300
-PhD thesis: Mac Curtis — PhD thesis, University of Bristol
+Research paper: Strain effects in $Sr_2RuO_4$ — [arXiv:2209.00300](https://arxiv.org/abs/2209.00300)
+PhD thesis: [Mac Curtis — PhD thesis, University of Bristol](https://research-information.bris.ac.uk/ws/portalfiles/portal/405539900/Mac_Curtis_Thesis_1_.pdf)
 Please refer to these works for the detailed theoretical background and interpretation of the results.
 
-## åAcknowledgements
+## Acknowledgements
 This project was developed as part of my personal PhD research. The code is intended to support further exploration of strain-dependent electronic structure and superconductivity in two-dimensional lattice models.
