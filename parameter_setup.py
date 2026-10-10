@@ -1,5 +1,5 @@
-strain = "c_axis"
-gap_pairing = "d_plus_id"
+strain = "strain"
+gap_pairing = "gap_pairing"
 
 # Lattice params
 a1x = 1.0
