@@ -1,5 +1,76 @@
+# =========================================================================== #
+#                           CALCULATION TYPE                                  #
+# =========================================================================== #
 strain = "strain"
 gap_pairing = "gap_pairing"
+
+
+# =========================================================================== #
+#                           CALCULATION DETAILS                               #
+# =========================================================================== #
+
+
+# ---------------------------------------------------------------------------- #
+# Available modes
+# ---------------------------------------------------------------------------- #
+#
+# "calculate" -> Calculate the quantity
+# "load"      -> Load a previously calculated quantity
+# "skip"      -> Skip the calculation and do not load
+# ---------------------------------------------------------------------------- #
+
+
+# =========================================================================== #
+#                           CALCULATION MODES                                 #
+# =========================================================================== #
+# Hopping array
+hopping_array_mode = "calculate"
+energyband_mode = "calculate"
+dos_mode = "calculate"
+delta_mode = "calculate"
+tc_mode = "calculate"
+
+
+# ============================================================================ #
+#                           SAVE / LOAD SETTINGS                              #
+# ============================================================================ #
+save_hopping_array = True
+save_energyband = True
+dos_mode = "calculate"
+save_delta = True
+save_tc = True
+
+
+# Energy band
+
+energyband_name = "energy_band.npy"
+energyband_plot = True
+
+# Superconducting gap / Delta
+
+
+delta_name = "delta_temperature.npy"
+delta_plot = True
+
+# Critical temperature
+
+tc_name = "critical_temperature.npy"
+tc_plot = True
+
+# Density of states
+
+dos_name = "density_of_states.npy"
+dos_plot = True
+
+
+# ---------------------------------------------------------------------------- #
+#                           PARAMETER SETUP                                    #
+# ---------------------------------------------------------------------------- #
+
+# Save a copy of the parameter configuration used for this calculation.
+save_parameters = True
+
+
 
 # Lattice params
 a1x = 1.0
@@ -37,55 +108,3 @@ tolerance_ratio = 0.1
 
 # Physical constants
 Kb = (1.38e-23) / (1.6e-19) 
-
-
-# ============================================================================ #
-#                           SAVE / LOAD SETTINGS                              #
-# ============================================================================ #
-
-# ---------------------------------------------------------------------------- #
-# Available modes
-# ---------------------------------------------------------------------------- #
-#
-# "calculate" -> Calculate the quantity
-# "load"      -> Load a previously calculated quantity
-# "skip"      -> Skip the calculation and do not load
-# ---------------------------------------------------------------------------- #
-
-
-# Hopping array
-hopping_array_mode = "calculate"
-save_hopping_array = True
-hopping_array_name = "hopping_array.npy"
-
-# Energy band
-energyband_mode = "calculate"
-save_energyband = True
-energyband_name = "energy_band.npy"
-energyband_plot = True
-
-# Superconducting gap / Delta
-delta_mode = "calculate"
-save_delta = True
-delta_name = "delta_temperature.npy"
-delta_plot = True
-
-# Critical temperature
-tc_mode = "calculate"
-save_tc = True
-tc_name = "critical_temperature.npy"
-tc_plot = True
-
-# Density of states
-dos_mode = "calculate"
-save_dos = True
-dos_name = "density_of_states.npy"
-dos_plot = True
-
-
-# ---------------------------------------------------------------------------- #
-# Parameter setup
-# ---------------------------------------------------------------------------- #
-
-# Save a copy of the parameter configuration used for this calculation.
-save_parameters = True
