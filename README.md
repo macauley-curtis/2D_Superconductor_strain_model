@@ -1,23 +1,164 @@
-# 2D_Superconductor_strain_model
-The script developed here were created for my personal PhD project for exploring the effect of strain on the superconducting critical temperature
+# 2D Superconductor Strain Model
 
-Strain is modelled via changing the hopping integrals, in increase in t_x is a decrease in the physical bond length in the x direction of the crystal lattice.
+A Python model for investigating the effect of lattice strain on superconductivity in a two-dimensional tight-binding system. This code was developed as part of my PhD research to explore how strain-induced changes in electronic structure influence the superconducting gap, critical temperature, and density of states.
 
+The model supports several strain configurations and superconducting pairing symmetries, allowing their effects to be investigated within a consistent computational framework.
 
+Scientific Background
+Strain is modelled through changes in the electronic hopping integrals, which describe the transfer of electrons between lattice sites. For example, an increase in the nearest-neighbour hopping parameter t$_x$ corresponds to a decrease in the physical bond length along the
+x-direction, within the model's assumed relationship between hopping and lattice spacing.
 
-The energyband is used in all following caluclations, the hopping integral is inherently involved in this calculation but saved for when plotting as a function of hopping anisotropy is used. If desired, the Fermi energy can be calculated by subtracted the first value of epsilon_0 form the whole array s.t fermi_energy = epsilon_0[:] - epsilon_0[0] as the Fermi energy is set to zero.
+The resulting changes in the electronic band structure affect the Fermi surface and density of states, which in turn influence the superconducting gap and critical temperature.
 
-The Delta calculation will calculate the gap function as a fucntion of temperature and hopping anisotropy, returning the gap function and also the critcal temperature. 
+The model consists of three main calculations:
 
-Dos is the denisty of states, it calculates the desity of states in the normal state (representing s-wave BCS superconductors), and then weighted dos for all other models which is the normal state weighted by the gap symmetry Gamma(k).
-This provides insight into the superconductting characteristics. 
+1.  ## Energy Band Structure
+    The energy-band calculation determines the electronic dispersion
+    ε
+    k
+    throughout the Brillouin zone for a range of strain-induced hopping parameters.
 
+The chemical potential is adjusted at each strain value to maintain a constant electron number. The resulting energy bands are saved and reused by subsequent calculations, avoiding unnecessary recomputation.
 
+The hopping parameters are also saved separately, allowing calculated properties to be plotted against hopping anisotropy or the relevant normalised hopping parameter.
 
-You can specify the paramaters conercned to the scripts as stated, you can speificy the type of gap pairing (gap_pairing="") and the strain (strain="") which automatically pulls the correct previous data, and writes the correct output. It is all the same format so they all work together. The possible values are specified in the function "gap_symmetries" ane the strain is either: "uniaxial", "shear" or "c_axis".
+The energy reference is set by the chemical-potential convention used in the calculation. Where required, a relative chemical-potential shift can be obtained by subtracting its unstrained value:
 
-In main, there is opperutnity to alter both some of the physical parameters (for example physical values specific to the material) and also the more computational values linked to convergence, array size etc to optimize run-time and computational loads on your specific machines. I can run on Mac OS, Macbook pro M1 for s-wave, uniaixal, 1:1.14 in 20 steps on a 700x700 grid in about 6 minutes.
+fermi_energy = epsilon_0[:] - epsilon_0[0]
 
-For further details on how to read the outputs in context, this paper authored by me and my supervisor outlines all details of the resulting plots and what they mean for the case study of Sr2RuO4 - https://arxiv.org/abs/2209.00300.
+2.  ## Superconducting Gap and Critical Temperature
+    The superconducting gap calculation solves the self-consistent gap equation as a function of temperature and strain.
 
+For each hopping configuration, the calculation returns the temperature-dependent gap and an estimate of the superconducting critical temperature
+T$_c$.
 
+Both single-component and two-component order parameters are supported. The two-component models allow complex order parameters, enabling the investigation of pairing states such as chiral or mixed-symmetry superconducting phases.
+
+The resulting data can be used to investigate how strain affects the superconducting gap and critical temperature for different pairing symmetries.
+
+A general attratice interaction potential is assumed and calculatred by matching
+the unstrained Gap parameters to experimental values, tuning T$_c$.
+
+3.  ## Density of States (DOS)
+    The density-of-states calculation evaluates the normal-state DOS and the corresponding gap-symmetry-weighted DOS.
+
+The normal-state DOS characterises the available electronic states as a function of energy. The weighted DOS incorporates the momentum dependence of the selected pairing symmetry,
+Γ(k) providing additional insight into how the electronic structure relates to the candidate superconducting order parameter.
+
+These quantities can be used alongside the energy-band and gap calculations to investigate the relationship between strain, electronic structure, and superconducting properties.
+
+Supported Strain Configurations
+The model supports three strain configurations:
+
+uniaxial — changes the nearest neighbour hopping parameters along the target axis.
+c_axis — changes the in-plane hopping parameters according to the model's
+c-axis strain.
+shear — primarily modifies the next-nearest neighbour hopping parameters and lattice geometry to represent shear strain.
+Each configuration has its own hopping parameters and associated energy-band data.
+
+Supported Pairing Symmetries
+The following pairing symmetries are available through the gap_pairing argument:
+
+Argument Pairing symmetry
+s_wave
+s
+-wave
+ext_s_wave Extended
+s
+-wave (
+s
+±
+)
+d_wave
+d
+x
+2
+−
+y
+2
+-wave
+d_plus_id
+d
+
+- i
+  d
+  d_plus_ig
+  d
+- i
+  g
+  chiral_p Chiral
+  p
+  x
+- i
+  p
+  y
+
+## Getting Started
+
+Requirements
+The model uses Python and the following scientific libraries:
+
+NumPy
+Matplotlib
+SciPy
+Install the dependencies using the repository's requirements file, if available:
+
+python -m pip install -r requirements.txt
+
+# Setup file
+
+`parameter_setup.py` contains all of the parameters required for the calculation.
+It's split up by first choosing the gap pairing and strain combination to claculate.
+Then deciding whether to calculate, load and save each segmant of the calculation.
+
+And finally the physical parameters. The file pushed to github contains roughly the correct
+parameters used during calculation, there has since been some changes to how the interation
+potential is treated so may need adjusting the unstrained version to get `T$_c$ = 0 for
+each pairing.
+
+### Project Structure
+The repository is organised around the following directories and scripts:
+
+`src/` — source code for the model and its calculation routines.
+`tests/` — tests for the model's functions and behaviour.
+`results/` — generated numerical data, plots, and other calculation outputs -
+`helpers.py` contains functions for working out the save paths, creating and
+saving/loading to/from these paths.
+`parameter_setup.py` — configuration of model parameters.
+`run_calculations.py` — entry point for running calculations.
+
+When adapting the code to another material, ensure that the physical parameters and their units are consistent throughout the calculation.
+
+The model contains a fermi-sruface style screening only calculating energies within
+`cutoff_energy` of the femri surface, vastly reducing the k-space gird points needed to caluclate - however overdoing this also increases volatility in the self consistent calculation. So
+a compramise needs to be made between `nk` and `cutoff_energy`.
+
+Actual runtimes will vary with the machine, calculation settings, and enabled outputs.
+
+An example run on a Macbook M4 pro for `stain = uniaxial` and
+`gap_pairing = "d-wave"` is as below:
+
+```python
+ ek_run_time: 0.11 seconds
+ dos_run_time: 3.13 seconds
+ delta_run_time: 29.33 seconds
+ tc_run_time: 0.00 seconds
+```
+
+`utils.helpers.save_params_setup()` will save the parameters and runtimes into the target folder when `save_parameters = True`.
+
+When the save for either the data or plots are set to `True` they will be saved alongside the parameters.
+You may then set the modes to `load` to pull these rather than recalculating.
+
+## Research and Further Reading
+
+This code was developed for my PhD research into the effects of strain on superconductivity, with particular application to strontium ruthenate (Sr$_2$RuO$_4$).
+
+The following publications provide further context for the physical model, interpretation of the calculated quantities, and scientific motivation.
+
+Research paper: Strain effects in Sr₂RuO₄ — arXiv:2209.00300
+PhD thesis: Mac Curtis — PhD thesis, University of Bristol
+Please refer to these works for the detailed theoretical background and interpretation of the results.
+
+## åAcknowledgements
+This project was developed as part of my personal PhD research. The code is intended to support further exploration of strain-dependent electronic structure and superconductivity in two-dimensional lattice models.
