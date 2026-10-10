@@ -5,7 +5,7 @@ A Python model for investigating the effect of lattice strain on superconductivi
 The model supports several strain configurations and superconducting pairing symmetries, allowing their effects to be investigated within a consistent computational framework.
 
 Scientific Background
-Strain is modelled through changes in the electronic hopping integrals, which describe the transfer of electrons between lattice sites. For example, an increase in the nearest-neighbour hopping parameter t$_x$ corresponds to a decrease in the physical bond length along the
+Strain is modeled through changes in the electronic hopping integrals, which describe the transfer of electrons between lattice sites. For example, an increase in the nearest-neighbour hopping parameter $t_x$ corresponds to a decrease in the physical bond length along the
 x-direction, within the model's assumed relationship between hopping and lattice spacing.
 
 The resulting changes in the electronic band structure affect the Fermi surface and density of states, which in turn influence the superconducting gap and critical temperature.
@@ -13,9 +13,7 @@ The resulting changes in the electronic band structure affect the Fermi surface 
 The model consists of three main calculations:
 
 1.  ## Energy Band Structure
-    The energy-band calculation determines the electronic dispersion
-    ε
-    k
+    The energy-band calculation determines the electronic dispersion $\varepsilon_k$.
     throughout the Brillouin zone for a range of strain-induced hopping parameters.
 
 The chemical potential is adjusted at each strain value to maintain a constant electron number. The resulting energy bands are saved and reused by subsequent calculations, avoiding unnecessary recomputation.
